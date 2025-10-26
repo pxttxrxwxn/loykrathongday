@@ -104,7 +104,7 @@ export default function Show() {
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        className="absolute top-0 left-0 w-full h-full object-fill z-0"
       />
 
       <div className="absolute left-0 z-20 w-1/2 h-[70%] flex flex-col items-center justify-start">

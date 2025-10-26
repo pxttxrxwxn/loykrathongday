@@ -104,10 +104,10 @@ export default function CreateKrathong() {
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        className="absolute top-0 left-0 w-full h-full object-fill z-0"
       />
 
-      <div className="absolute left-0 z-20 w-1/2 h-[80%] flex flex-col items-center justify-end mb-15">
+      <div className="absolute left-0 z-20 w-1/2 h-[80%] flex flex-col items-center justify-start mb-15">
         <div className="grid grid-2 gap-10">
           <div className="bg-white/60 rounded-3xl p-5 shadow-lg">
             <div className="flex items-center gap-3 mb-2">
@@ -184,8 +184,8 @@ export default function CreateKrathong() {
         </div>
       </div>
 
-      <div className="absolute right-0 z-30 w-1/2 h-[80%] flex items-center justify-end mb-15">
-        <div className="bg-white/60 rounded-3xl p-10 shadow-lg text-center w-3/4 h-1/1 absolute flex flex-col items-center justify-center left-0">
+      <div className="absolute right-0 z-30 w-1/2 h-[80%] flex items-start justify-start mb-15">
+        <div className="bg-white/60 rounded-3xl p-10 shadow-lg text-center w-3/4 h-[78%] absolute flex flex-col items-center justify-center left-0">
 
           {selectedKrathong !== null ? (
             <div className="flex flex-col items-center">
