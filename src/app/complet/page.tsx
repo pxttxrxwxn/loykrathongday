@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { supabase } from "../lib/supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 
 interface KrathongInfo {
   idx: number;
@@ -36,20 +36,22 @@ export default function Home() {
       else setKrathongs(data as KrathongInfo[]);
     };
     fetchKrathongs();
-   {/* const interval = setInterval(fetchKrathongs, 20000);
-    return () => clearInterval(interval);*/} 
   }, []);
 
+  // 🔹 ฟังก์ชันสุ่มค่าคลื่น
   const getRandomProps = (waveOptions: number[]) => {
     const waveY = waveOptions[Math.floor(Math.random() * waveOptions.length)];
-    const dur = (15 + Math.random() * 5).toFixed(1);
+    const dur = (15 + Math.random() * 5).toFixed(1); // 15–20s
     return { waveY, dur };
   };
 
-  const waveLayers = [15, 75, 158];
+  // 🔹 ชั้นคลื่นหลัก
+  const waveLayers = [15, 75, 158]; // บน กลาง ล่าง
 
-  const activeLayers = Math.min(krathongs.length, 10);
+  // 🔹 เลือกจำนวนชั้นที่ใช้จริงตามจำนวนกระทง
+  const activeLayers = Math.min(krathongs.length, 3);
 
+  // 🔹 สุ่มกระทงสำหรับแต่ละชั้นโดยไม่ซ้ำ
   const selectedKrathongs: KrathongInfo[] = [];
   if (krathongs.length > 0) {
     const pool = [...krathongs];
@@ -61,6 +63,7 @@ export default function Home() {
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
+      {/* พื้นหลังวิดีโอ */}
       <video
         src={isMobile ? "/videos/background2.mp4" : "/videos/background1.mp4"}
         autoPlay
@@ -70,6 +73,7 @@ export default function Home() {
         className="absolute top-0 left-0 w-full h-full object-fill z-0"
       />
 
+      {/* ตัวเลขจำนวนกระทง */}
       {isMobile ? (
         <div className="absolute top-[30.2%] left-[58%] p-1 z-40 -translate-x-1/2">
           <h1
@@ -94,6 +98,7 @@ export default function Home() {
         </div>
       )}
 
+      {/* ชั้นคลื่น */}
       <div className="absolute bottom-0 w-full flex flex-col items-center justify-end gap-y-10 h-[500px] overflow-visible">
         {waveLayers.slice(0, activeLayers).map((waveYBase, layerIdx) => {
           const k = selectedKrathongs[layerIdx];
@@ -139,6 +144,7 @@ export default function Home() {
         })}
       </div>
 
+      {/* ปุ่มลอยกระทง */}
       <Link
         href="/Create_Krathong"
         className="absolute bottom-5 z-20 font-[Prompt] font-bold text-[#4557c7] text-[23px] px-10 py-2 bg-white rounded-[50px] shadow-[0_0_25px_10px_rgba(255,255,255,0.6)] transition-shadow duration-300"
