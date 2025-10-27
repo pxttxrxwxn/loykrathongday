@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { supabase } from "../lib/supabaseClient";
 
 interface KrathongInfo {
   idx: number;
+  showName: string;
+  wish: string;
   image_path: string;
   created_at: string;
 }
@@ -14,6 +16,7 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [width, setWidth] = useState(1920);
   const [krathongs, setKrathongs] = useState<KrathongInfo[]>([]);
+  const hoverRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -36,18 +39,15 @@ export default function Home() {
       else setKrathongs(data as KrathongInfo[]);
     };
     fetchKrathongs();
-   {/* const interval = setInterval(fetchKrathongs, 20000);
-    return () => clearInterval(interval);*/} 
   }, []);
 
   const getRandomProps = (waveOptions: number[]) => {
     const waveY = waveOptions[Math.floor(Math.random() * waveOptions.length)];
-    const dur = (30 + Math.random() * 5).toFixed(1);
+    const dur = (15 + Math.random() * 5).toFixed(1);
     return { waveY, dur };
   };
 
   const waveLayers = [15, 75, 158];
-
   const activeLayers = Math.min(krathongs.length, 10);
 
   const selectedKrathongs: KrathongInfo[] = [];
@@ -70,6 +70,7 @@ export default function Home() {
         className="absolute top-0 left-0 w-full h-full object-fill z-0"
       />
 
+      {/* แสดงจำนวนกระทง */}
       {isMobile ? (
         <div className="absolute top-[30.2%] left-[58%] p-1 z-40 -translate-x-1/2">
           <h1
@@ -94,6 +95,7 @@ export default function Home() {
         </div>
       )}
 
+      {/* กระทงลอยน้ำ */}
       <div className="absolute bottom-0 w-full flex flex-col items-center justify-end gap-y-10 h-[500px] overflow-visible">
         {waveLayers.slice(0, activeLayers).map((waveYBase, layerIdx) => {
           const k = selectedKrathongs[layerIdx];
@@ -101,24 +103,24 @@ export default function Home() {
 
           const { waveY, dur } = getRandomProps([waveYBase]);
           const delay = (Math.random() * 1).toFixed(1);
+          const isHovered = hoverRef.current === k.idx;
 
           return (
             <svg
               key={`wave-${layerIdx}`}
               viewBox={`0 0 ${width} 300`}
-              className="absolute w-full h-[400px] top-16 left-0"
+              className="absolute w-full h-[500px] top-16 left-0"
             >
-              <image
-                key={`${k.idx}-${layerIdx}`}
-                href={k.image_path}
-                width="100"
-                height="100"
-                opacity="1"
+              {/* กระทงและข้อความรวมกัน */}
+              <g
+                style={{ cursor: "pointer" }}
+                onMouseEnter={() => (hoverRef.current = k.idx)}
+                onMouseLeave={() => (hoverRef.current = null)}
               >
                 <animateMotion
                   dur={`${dur}s`}
                   repeatCount="indefinite"
-                  begin={`${delay}s`} 
+                  begin={`${delay}s`}
                   path={`
                     M-500 ${waveY}
                     Q ${width * 0.05} ${waveY - 10}, ${width * 0.1} ${waveY + 15}
@@ -133,7 +135,61 @@ export default function Home() {
                     T ${width} ${waveY}
                   `}
                 />
-              </image>
+                
+                {/* กระทง */}
+                <image
+                  href={k.image_path}
+                  x="-50"
+                  y="-50"
+                  width="100"
+                  height="100"
+                  opacity="1"
+                />
+
+                {/* ข้อความ - แสดงตลอดเวลา */}
+                <g>
+                  {(() => {
+                    const padding = 10;
+                    const nameLength = k.showName.length * 8.5;
+                    const wishLength = k.wish.length * 7;
+                    const boxWidth = Math.max(nameLength, wishLength) + padding * 2;
+                    const boxHeight = 50;
+                    return (
+                      <>
+                        <rect 
+                          x={-boxWidth / 2} 
+                          y="-95" 
+                          width={boxWidth} 
+                          height={boxHeight} 
+                          rx="8" 
+                          fill="rgba(254, 255, 254, 0.7)" 
+                        />
+                        <text
+                          x="0"
+                          y="-75"
+                          textAnchor="middle"
+                          fontFamily="Prompt"
+                          fontSize="14"
+                          fill="#333"
+                          fontWeight="bold"
+                        >
+                          {k.showName}
+                        </text>
+                        <text
+                          x="0"
+                          y="-58"
+                          textAnchor="middle"
+                          fontFamily="Prompt"
+                          fontSize="12"
+                          fill="#555"
+                        >
+                          {k.wish}
+                        </text>
+                      </>
+                    );
+                  })()}
+                </g>
+              </g>
             </svg>
           );
         })}

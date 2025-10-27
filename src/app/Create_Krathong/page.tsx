@@ -159,7 +159,7 @@ export default function CreateKrathong() {
           <div className="bg-white/60 rounded-3xl flex flex-col items-center justify-center shadow-lg text-center w-full min-h-[300px] md:min-h-[300px] lg:min-h-[300px] mb-5">
             {selectedKrathong !== null ? (
               <div className="flex flex-col items-center">
-                <div className="relative w-50 h-50 mb-4">
+                <div className="relative w-50 h-50 mb-4 animate-gentle-bounce">
                   <Image
                     src={completeImage || `/Krathong/Krathong${selectedKrathong + 1}.png`}
                     alt="Selected Krathong"
@@ -172,6 +172,15 @@ export default function CreateKrathong() {
             ) : (
               <p className="text-gray-600">กรุณาเลือกกระทง</p>
             )}
+            <style jsx>{`
+              @keyframes gentle-bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+              }
+              .animate-gentle-bounce {
+                animation: gentle-bounce 2s ease-in-out infinite;
+              }
+            `}</style>
           </div>
           <button
             onClick={handleSubmit}
@@ -242,7 +251,8 @@ export default function CreateKrathong() {
               <div className="bg-white/60 rounded-3xl p-10 shadow-lg text-center w-3/4 h-full flex flex-col items-center justify-center">
                 {selectedKrathong !== null ? (
                   <div className="flex flex-col items-center">
-                    <div className="relative w-50 h-50 mb-4">
+                    {/* เอา class animate-gentle-bounce ใส่กับ div รอบ Image */}
+                    <div className="relative w-50 h-50 mb-4 animate-gentle-bounce">
                       <Image
                         src={completeImage || `/Krathong/Krathong${selectedKrathong + 1}.png`}
                         alt="Selected Krathong"
@@ -255,6 +265,17 @@ export default function CreateKrathong() {
                 ) : (
                   <p className="text-gray-600">กรุณาเลือกกระทง</p>
                 )}
+
+                {/* ใส่ style animation */}
+                <style jsx>{`
+                  @keyframes gentle-bounce {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-10px); }
+                  }
+                  .animate-gentle-bounce {
+                    animation: gentle-bounce 2s ease-in-out infinite;
+                  }
+                `}</style>
               </div>
             </div>
           </div>

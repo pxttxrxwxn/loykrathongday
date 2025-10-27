@@ -65,6 +65,23 @@ export default function Show() {
     if (Object.values(newErrors).some(Boolean)) return;
 
     try {
+      // 1. ดึงค่า id ล่าสุด
+      const { data: lastRow, error: fetchError } = await supabase
+        .from("information")
+        .select("idx")
+        .order("idx", { ascending: false })
+        .limit(1)
+        .maybeSingle(); // จะได้ null ถ้าไม่มีข้อมูล
+
+      if (fetchError) {
+        console.error("เกิดข้อผิดพลาดในการดึงข้อมูล id:", fetchError);
+        return;
+      }
+
+      // 2. คำนวณ id ใหม่
+      const newId = lastRow ? lastRow.idx + 1 : 1;
+
+      // 3. เตรียม path ของภาพ
       const krathongImage =
         krathongData?.completeImage ||
         `/Krathong/Krathong${
@@ -73,30 +90,34 @@ export default function Show() {
             : 1
         }.png`;
 
-      const { error } = await supabase
+      // 4. insert พร้อม id ที่กำหนดเอง
+      const { error: insertError } = await supabase
         .from("information")
         .insert([
           {
+            idx: newId,
             showName: showName,
             wish: Desc,
             image_path: krathongImage,
             Role: role,
           },
-        ])
-        .select();
+        ]);
 
-      if (error) {
-        console.error("เกิดข้อผิดพลาดในการบันทึกข้อมูล:", error);
+      if (insertError) {
+        console.error("เกิดข้อผิดพลาดในการบันทึกข้อมูล:", insertError);
         return;
       }
 
+      // 5. เคลียร์ localStorage และ redirect
       localStorage.removeItem("selectedKrathongData");
       localStorage.removeItem("finalKrathongInfo");
       router.push("/");
+
     } catch (err) {
       console.error(err);
     }
   };
+
 
   const krathongPath =
     krathongData?.completeImage ||
@@ -120,12 +141,21 @@ export default function Show() {
           <div className="grid grid-rows-1 gap-9 w-[80%]">
             <div className="bg-white/60 rounded-xl p-2 shadow-md flex flex-col items-center justify-center">
               {krathongData ? (
-                <div className="relative w-[260px] h-[280px]">
+                <div className="relative w-[260px] h-[280px] animate-gentle-bounce">
                   <Image src={krathongPath} alt="กระทงของคุณ" fill className="object-contain" />
                 </div>
               ) : (
                 <p className="text-gray-500">กำลังโหลด...</p>
               )}
+              <style jsx>{`
+                @keyframes gentle-bounce {
+                  0%, 100% { transform: translateY(0); }
+                  50% { transform: translateY(-10px); }
+                }
+                .animate-gentle-bounce {
+                  animation: gentle-bounce 2s ease-in-out infinite;
+                }
+              `}</style>
             </div>
             <div className="flex flex-col">
               <label className="text-[#000000] text-lg mb-1">
@@ -356,12 +386,21 @@ export default function Show() {
             </div>
             <div className="bg-white/60 rounded-xl p-2 shadow-md flex flex-col items-center justify-center w-[60%]">
               {krathongData ? (
-                <div className="relative w-[320px] h-[280px]">
+                <div className="relative w-[320px] h-[280px] animate-gentle-bounce">
                   <Image src={krathongPath} alt="กระทงของคุณ" fill className="object-contain" />
                 </div>
               ) : (
                 <p className="text-gray-500">กำลังโหลด...</p>
               )}
+              <style jsx>{`
+                @keyframes gentle-bounce {
+                  0%, 100% { transform: translateY(0); }
+                  50% { transform: translateY(-10px); }
+                }
+                .animate-gentle-bounce {
+                  animation: gentle-bounce 2s ease-in-out infinite;
+                }
+              `}</style>
             </div>
           </div>
         </div>
