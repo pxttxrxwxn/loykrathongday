@@ -42,7 +42,7 @@ export default function Home() {
 
   const getRandomProps = (waveOptions: number[]) => {
     const waveY = waveOptions[Math.floor(Math.random() * waveOptions.length)];
-    const dur = (15 + Math.random() * 5).toFixed(1);
+    const dur = (30 + Math.random() * 5).toFixed(1);
     return { waveY, dur };
   };
 

@@ -9,15 +9,13 @@ export default function Show() {
   const router = useRouter();
 
   const [Desc, setDesc] = useState("");
-  const [studentId, setStudentId] = useState("");
-  const [fullName, setFullName] = useState("");
   const [showName, setShowName] = useState("");
+  const [role, setRole] = useState("");
   const [selectedPray, setSelectedPray] = useState<number | null>(null);
   const [errors, setErrors] = useState({
-    studentId: false,
-    fullName: false,
     showName: false,
     selectedPray: false,
+    role: false,
   });
 
   interface KrathongData {
@@ -58,57 +56,37 @@ export default function Show() {
 
   const handleSubmit = async () => {
     const newErrors = {
-      studentId: !studentId,
-      fullName: !fullName,
       showName: !showName,
       selectedPray: selectedPray === null,
+      role: !role,
     };
     setErrors(newErrors);
 
     if (Object.values(newErrors).some(Boolean)) return;
 
     try {
-      const { data: existing, error: fetchError } = await supabase
-        .from("information")
-        .select("student_id")
-        .eq("student_id", Number(studentId))
-        .single();
-
-      if (fetchError && fetchError.code !== "PGRST116") {
-        console.error("เกิดข้อผิดพลาดในการตรวจสอบ studentId:", fetchError);
-        return;
-      }
-
-      if (existing) {
-        setErrors((prev) => ({ ...prev, studentId: true }));
-        alert("รหัสนิสิตนี้มีการบันทึกแล้ว กรุณากรอกรหัสใหม่");
-        return;
-      }
-
       const krathongImage =
         krathongData?.completeImage ||
         `/Krathong/Krathong${
-          krathongData?.krathong !== undefined ? krathongData.krathong + 1 : 1
+          krathongData?.krathong !== undefined
+            ? krathongData.krathong + 1
+            : 1
         }.png`;
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("information")
         .insert([
           {
-            student_id: Number(studentId),
-            first_and_last_name: fullName,
             showName: showName,
             wish: Desc,
             image_path: krathongImage,
+            Role: role,
           },
         ])
         .select();
 
       if (error) {
-        console.error(
-          "เกิดข้อผิดพลาดในการบันทึกข้อมูล:",
-          JSON.stringify(error, null, 2)
-        );
+        console.error("เกิดข้อผิดพลาดในการบันทึกข้อมูล:", error);
         return;
       }
 
@@ -151,42 +129,6 @@ export default function Show() {
             </div>
             <div className="flex flex-col">
               <label className="text-[#000000] text-lg mb-1">
-                รหัสนิสิต
-              </label>
-              <input
-                type="number"
-                value={studentId}
-                onChange={(e) => {
-                  setStudentId(e.target.value);
-                  if (errors.studentId && e.target.value) {
-                    setErrors((prev) => ({ ...prev, studentId: false }));
-                  }
-                }}
-                placeholder="กรุณากรอกรหัสนิสิต"
-                className={`p-2 rounded focus:outline-none focus:ring-2 border bg-white text-black placeholder:text-[#0F0D13]/16
-                  ${errors.studentId ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-[#C49A6C]"}`}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-[#000000] text-lg mb-1">
-                ชื่อ-นามสกุล
-              </label>
-              <input
-                type="text"
-                value={fullName}
-                onChange={(e) => {
-                  setFullName(e.target.value);
-                  if (errors.fullName && e.target.value) {
-                    setErrors((prev) => ({ ...prev, fullName: false }));
-                  }
-                }}
-                placeholder="กรุณากรอกชื่อ-นามสกุล"
-                className={`p-2 rounded focus:outline-none focus:ring-2 border bg-white text-black placeholder:text-[#0F0D13]/16
-                  ${errors.fullName ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-[#C49A6C]"}`}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-[#000000] text-lg mb-1">
                 ชื่อที่ต้องการแสดง
               </label>
               <input
@@ -202,6 +144,43 @@ export default function Show() {
                 className={`p-2 rounded focus:outline-none focus:ring-2 border bg-white text-black placeholder:text-[#0F0D13]/16
                   ${errors.showName ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-[#C49A6C]"}`}
               />
+            </div>
+            <div className="flex">
+              <label className="text-[#000000] text-lg mb-1">
+                บุคลากร
+              </label>
+              <div className="grid grid-2">
+                  <label className="flex items-center gap-2 ml-10">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="student"
+                      checked={role === "student"}
+                      onChange={(e) => setRole(e.target.value)}
+                    />
+                    <span className="p-1 rounded text-black">นิสิต / นักเรียน</span>
+                  </label>
+                  <label className="flex items-center gap-2 ml-10">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="internal"
+                      checked={role === "internal"}
+                      onChange={(e) => setRole(e.target.value)}
+                    />
+                    <span className="p-1 rounded text-black">บุคลากรภายในมหาวิทยาลัย</span>
+                  </label>
+                  <label className="flex items-center gap-2 ml-10">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="external"
+                      checked={role === "external"}
+                      onChange={(e) => setRole(e.target.value)}
+                    />
+                    <span className="px-1 rounded text-black">บุคลากรภายนอก</span>
+                  </label>
+                </div>
             </div>
             <div className="flex flex-col">
               <label className="text-[#000000] text-lg mb-1">
@@ -269,44 +248,47 @@ export default function Show() {
         <div className="absolute z-20 flex flex-col w-full items-center justify-start">
           <div className="flex gap-5 w-[80%]">
             <div className="grid grid-2 gap-5 w-1/1">
+              <div className=" bg-white/70 rounded-xl p-3 shadow-lg z-30">
+                <div className="flex items-center gap-3">
+                  <h1 className="bg-[#D9D9D9] rounded-[50px] px-3 py-1 text-[20px] text-black">
+                    บุคลากร
+                  </h1>
+                </div>
+                <div className="grid grid-2">
+                  <label className="flex items-center gap-2 ml-10">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="student"
+                      checked={role === "student"}
+                      onChange={(e) => setRole(e.target.value)}
+                    />
+                    <span className="p-1 rounded text-black">นิสิต / นักเรียน</span>
+                  </label>
+                  <label className="flex items-center gap-2 ml-10">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="internal"
+                      checked={role === "internal"}
+                      onChange={(e) => setRole(e.target.value)}
+                    />
+                    <span className="p-1 rounded text-black">บุคลากรภายในมหาวิทยาลัย</span>
+                  </label>
+                  <label className="flex items-center gap-2 ml-10">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="external"
+                      checked={role === "external"}
+                      onChange={(e) => setRole(e.target.value)}
+                    />
+                    <span className="px-1 rounded text-black">บุคลากรภายนอก</span>
+                  </label>
+                </div>
+              </div>
               <div className="bg-white/70 rounded-xl p-5 shadow-lg z-30">
                 <div className="grid grid-cols-2 gap-5">
-                  <div className="flex flex-col">
-                    <label className="text-[#000000] text-lg mb-1">
-                      รหัสนิสิต
-                    </label>
-                    <input
-                      type="number"
-                      value={studentId}
-                      onChange={(e) => {
-                        setStudentId(e.target.value);
-                        if (errors.studentId && e.target.value) {
-                          setErrors((prev) => ({ ...prev, studentId: false }));
-                        }
-                      }}
-                      placeholder="กรุณากรอกรหัสนิสิต"
-                      className={`p-2 rounded focus:outline-none focus:ring-2 border bg-white text-black placeholder:text-[#0F0D13]/16
-                        ${errors.studentId ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-[#C49A6C]"}`}
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-[#000000] text-lg mb-1">
-                      ชื่อ-นามสกุล
-                    </label>
-                    <input
-                      type="text"
-                      value={fullName}
-                      onChange={(e) => {
-                        setFullName(e.target.value);
-                        if (errors.fullName && e.target.value) {
-                          setErrors((prev) => ({ ...prev, fullName: false }));
-                        }
-                      }}
-                      placeholder="กรุณากรอกชื่อ-นามสกุล"
-                      className={`p-2 rounded focus:outline-none focus:ring-2 border bg-white text-black placeholder:text-[#0F0D13]/16
-                        ${errors.fullName ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-[#C49A6C]"}`}
-                    />
-                  </div>
                   <div className="flex flex-col">
                     <label className="text-[#000000] text-lg mb-1">
                       ชื่อที่ต้องการแสดง
@@ -338,9 +320,9 @@ export default function Show() {
                   </div>
                 </div>
               </div>
-              <div className=" bg-white/70 rounded-xl p-5 shadow-lg z-30 mt-2">
+              <div className=" bg-white/70 rounded-xl p-3 shadow-lg z-30 mt-2">
                 <div className="flex items-center gap-3">
-                  <h1 className="bg-[#D9D9D9] rounded-[50px] px-3 py-1 text-[24px] text-black">
+                  <h1 className="bg-[#D9D9D9] rounded-[50px] px-3 py-1 text-[20px] text-black">
                     เลือกคำอธิษฐาน
                   </h1>
                   <h3 className="text-[18px] text-[#1E1E1E]/68">
