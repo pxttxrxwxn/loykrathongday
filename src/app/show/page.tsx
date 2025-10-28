@@ -126,7 +126,7 @@ export default function Show() {
     }.png`;
 
   return (
-    <div className="relative min-h-screen w-full bg-white flex flex-col items-center py-10 gap-8 px-4 sm:px-6 lg:px-8 font-[Prompt]">
+    <div className="relative min-h-screen w-full bg-white flex flex-col items-center py-8 gap-8 px-4 sm:px-6 lg:px-8 font-[Prompt]">
       <video
         src={isMobile ? "/videos/background4.mp4" : "/videos/background3.mp4"}
         autoPlay
@@ -275,7 +275,7 @@ export default function Show() {
       </div>
       ) : (
       <div className="relative h-9/10 w-full flex flex-col items-center gap-8 px-4 sm:px-6 lg:px-8 font-[Prompt]">
-        <div className="absolute z-20 flex flex-col w-full items-center justify-start">
+        <div className="absolute z-20 flex flex-col w-full h-screen items-center justify-start">
           <div className="flex gap-5 w-[80%]">
             <div className="grid grid-2 gap-5 w-1/1">
               <div className=" bg-white/70 rounded-xl p-3 shadow-lg z-30">
@@ -403,20 +403,20 @@ export default function Show() {
               `}</style>
             </div>
           </div>
-        </div>
-        <div className="fixed bottom-10 left-0 w-full flex justify-center gap-4 z-40">
-          <Link
-            href="/Create_Krathong"
-            className="bg-gray-400 hover:bg-gray-500 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-all"
-          >
-            ย้อนกลับ
-          </Link>
-          <button
-            onClick={handleSubmit}
-            className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-all"
-          >
-            ตกลง
-          </button>
+          <div className="absolute bottom-10 left-0 w-full flex justify-center gap-4 z-30">
+            <Link
+              href="/Create_Krathong"
+              className="bg-gray-400 hover:bg-gray-500 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-all"
+            >
+              ย้อนกลับ
+            </Link>
+            <button
+              onClick={handleSubmit}
+              className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-all"
+            >
+              ตกลง
+            </button>
+          </div>
         </div>
       </div>
       )}
