@@ -62,7 +62,15 @@ export default function Show() {
     };
     setErrors(newErrors);
 
-    if (Object.values(newErrors).some(Boolean)) return;
+    // ถ้ามี error ให้ alert ตามช่องที่ยังไม่กรอก
+    if (Object.values(newErrors).some(Boolean)) {
+      let message = "กรุณากรอกข้อมูลให้ครบถ้วน:\n";
+      if (newErrors.showName) message += "- ชื่อที่ต้องการแสดง\n";
+      if (newErrors.role) message += "- เลือกบุคลากร\n";
+      if (newErrors.selectedPray) message += "- เลือกคำอธิษฐาน\n";
+      alert(message);
+      return;
+    }
 
     try {
       // 1. ดึงค่า id ล่าสุด
@@ -71,7 +79,7 @@ export default function Show() {
         .select("idx")
         .order("idx", { ascending: false })
         .limit(1)
-        .maybeSingle(); // จะได้ null ถ้าไม่มีข้อมูล
+        .maybeSingle();
 
       if (fetchError) {
         console.error("เกิดข้อผิดพลาดในการดึงข้อมูล id:", fetchError);
@@ -85,9 +93,7 @@ export default function Show() {
       const krathongImage =
         krathongData?.completeImage ||
         `/Krathong/Krathong${
-          krathongData?.krathong !== undefined
-            ? krathongData.krathong + 1
-            : 1
+          krathongData?.krathong !== undefined ? krathongData.krathong + 1 : 1
         }.png`;
 
       // 4. insert พร้อม id ที่กำหนดเอง
@@ -112,7 +118,6 @@ export default function Show() {
       localStorage.removeItem("selectedKrathongData");
       localStorage.removeItem("finalKrathongInfo");
       router.push("/");
-
     } catch (err) {
       console.error(err);
     }
@@ -406,13 +411,13 @@ export default function Show() {
           <div className="absolute bottom-10 left-0 w-full flex justify-center gap-4 z-30">
             <Link
               href="/Create_Krathong"
-              className="bg-gray-400 hover:bg-gray-500 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-all"
+              className="bg-[#FFFFFF]/80 hover:scale-105 text-black px-8 py-3 rounded-full shadow-[0_0_25px_10px_rgba(255,255,255,0.6)] transition-all text-2xl"
             >
               ย้อนกลับ
             </Link>
             <button
               onClick={handleSubmit}
-              className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-all"
+              className="bg-[#FFFFFF]/80 hover:scale-105 text-black px-8 py-3 rounded-full shadow-[0_0_25px_10px_rgba(255,255,255,0.6)] transition-all text-2xl"
             >
               ตกลง
             </button>

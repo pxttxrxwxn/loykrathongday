@@ -282,10 +282,10 @@ export default function CreateKrathong() {
           <button
               onClick={handleSubmit}
               disabled={selectedKrathong === null || selectedFlowers.length !== 2}
-              className={`z-40 px-10 py-2 text-2xl rounded-full absolute bottom-8 left-1/2 transform -translate-x-1/2 shadow-lg transition ${
+              className={`z-40 px-10 py-2 text-2xl rounded-full absolute bottom-8 left-1/2 transform -translate-x-1/2 shadow-[0_0_25px_10px_rgba(255,255,255,0.6)] transition ${
                 selectedKrathong === null || selectedFlowers.length !== 2
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-white/80 text-black hover:scale-105"
+                  : "bg-[#FFFFFF]/80 text-black hover:scale-105 transition-all"
               }`}
             >
               ตกลง
