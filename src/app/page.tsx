@@ -16,8 +16,11 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [width, setWidth] = useState(1920);
   const [krathongs, setKrathongs] = useState<KrathongInfo[]>([]);
+  const [displayKrathongs, setDisplayKrathongs] = useState<KrathongInfo[]>([]);
+  const [batchIndex] = useState(0);
   const hoverRef = useRef<number | null>(null);
 
+  // ตรวจขนาดหน้าจอ
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -28,39 +31,47 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // ดึงข้อมูลจาก Supabase
   useEffect(() => {
     const fetchKrathongs = async () => {
       const { data, error } = await supabase
         .from("information")
         .select("*")
-        .limit(10)
         .order("created_at", { ascending: false });
+
       if (error) console.log("Error fetching krathongs:", error);
       else setKrathongs(data as KrathongInfo[]);
     };
     fetchKrathongs();
   }, []);
 
+  // จัดชุดกระทง (batch ละ 10)
+  useEffect(() => {
+    if (krathongs.length === 0) return;
+
+    if (krathongs.length <= 6) {
+      // ถ้าน้อยกว่าหรือเท่ากับ 10 → แสดงทั้งหมด
+      setDisplayKrathongs(krathongs);
+    } else {
+      // ถ้ามากกว่า 10 → แสดงเฉพาะ batch ปัจจุบัน
+      const start = batchIndex * 6;
+      const end = start + 6;
+      setDisplayKrathongs(krathongs.slice(start, end));
+    }
+  }, [krathongs, batchIndex]);
+
+  // กำหนดความเคลื่อนไหว
   const getRandomProps = (waveOptions: number[]) => {
     const waveY = waveOptions[Math.floor(Math.random() * waveOptions.length)];
-    const dur = (15 + Math.random() * 5).toFixed(1);
+    const dur = (13 + Math.random() * 15).toFixed(1);
     return { waveY, dur };
   };
 
   const waveLayers = [15, 75, 158];
-  const activeLayers = Math.min(krathongs.length, 10);
-
-  const selectedKrathongs: KrathongInfo[] = [];
-  if (krathongs.length > 0) {
-    const pool = [...krathongs];
-    for (let i = 0; i < activeLayers; i++) {
-      const randomIdx = Math.floor(Math.random() * pool.length);
-      selectedKrathongs.push(pool.splice(randomIdx, 1)[0]);
-    }
-  }
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
+      {/* พื้นหลังวิดีโอ */}
       <video
         src={isMobile ? "/videos/background2.mp4" : "/videos/background1.mp4"}
         autoPlay
@@ -97,18 +108,13 @@ export default function Home() {
 
       {/* กระทงลอยน้ำ */}
       <div className="absolute bottom-0 w-full flex flex-col items-center justify-end gap-y-10 h-[500px] overflow-visible">
-        {waveLayers.slice(0, activeLayers).map((waveYBase, layerIdx) => {
-          const k = selectedKrathongs[layerIdx];
-          if (!k) return null;
-
-          const { waveY, dur } = getRandomProps([waveYBase]);
-          const delay = (Math.random() * 1).toFixed(1);
-          const isHovered = hoverRef.current === k.idx;
+        {displayKrathongs.map((k, layerIdx) => {
+          const { waveY, dur } = getRandomProps(waveLayers);
 
           return (
             <svg
-              key={`wave-${layerIdx}`}
-              viewBox={`0 0 ${width} 300`}
+              key={`wave-${k.idx}-${layerIdx}`}
+              viewBox={`0 0 ${width} 230`}
               className="absolute w-full h-[500px] top-16 left-0"
             >
               {/* กระทงและข้อความรวมกัน */}
@@ -120,9 +126,8 @@ export default function Home() {
                 <animateMotion
                   dur={`${dur}s`}
                   repeatCount="indefinite"
-                  begin={`${delay}s`}
-                  path={`
-                    M-500 ${waveY}
+                  begin={`0.08s`}
+                  path={`M-500 ${waveY}
                     Q ${width * 0.05} ${waveY - 10}, ${width * 0.1} ${waveY + 15}
                     T ${width * 0.2} ${waveY}
                     T ${width * 0.3} ${waveY + 5}
@@ -132,10 +137,9 @@ export default function Home() {
                     T ${width * 0.7} ${waveY + 5}
                     T ${width * 0.8} ${waveY}
                     T ${width * 0.9} ${waveY + 5}
-                    T ${width} ${waveY}
-                  `}
+                    T ${width} ${waveY}`}
                 />
-                
+
                 {/* กระทง */}
                 <image
                   href={k.image_path}
@@ -146,55 +150,54 @@ export default function Home() {
                   opacity="1"
                 />
 
-                {/* ข้อความ - แสดงตลอดเวลา */}
-                <g>
-                  {(() => {
-                    const padding = 10;
-                    const nameLength = k.showName.length * 8.5;
-                    const wishLength = k.wish.length * 7;
-                    const boxWidth = Math.max(nameLength, wishLength) + padding * 2;
-                    const boxHeight = 50;
-                    return (
-                      <>
-                        <rect 
-                          x={-boxWidth / 2} 
-                          y="-95" 
-                          width={boxWidth} 
-                          height={boxHeight} 
-                          rx="8" 
-                          fill="rgba(254, 255, 254, 0.7)" 
-                        />
-                        <text
-                          x="0"
-                          y="-75"
-                          textAnchor="middle"
-                          fontFamily="Prompt"
-                          fontSize="14"
-                          fill="#333"
-                          fontWeight="bold"
-                        >
-                          {k.showName}
-                        </text>
-                        <text
-                          x="0"
-                          y="-58"
-                          textAnchor="middle"
-                          fontFamily="Prompt"
-                          fontSize="12"
-                          fill="#555"
-                        >
-                          {k.wish}
-                        </text>
-                      </>
-                    );
-                  })()}
-                </g>
+                {/* ข้อความ */}
+                {(() => {
+                  const padding = 10;
+                  const nameLength = k.showName.length * 8.5;
+                  const wishLength = k.wish.length * 7;
+                  const boxWidth = Math.max(nameLength, wishLength) + padding * 2;
+                  const boxHeight = 50;
+                  return (
+                    <>
+                      <rect
+                        x={-boxWidth / 2}
+                        y="-95"
+                        width={boxWidth}
+                        height={boxHeight}
+                        rx="8"
+                        fill="rgba(254, 255, 254, 0.7)"
+                      />
+                      <text
+                        x="0"
+                        y="-75"
+                        textAnchor="middle"
+                        fontFamily="Prompt"
+                        fontSize="14"
+                        fill="#333"
+                        fontWeight="bold"
+                      >
+                        {k.showName}
+                      </text>
+                      <text
+                        x="0"
+                        y="-58"
+                        textAnchor="middle"
+                        fontFamily="Prompt"
+                        fontSize="12"
+                        fill="#555"
+                      >
+                        {k.wish}
+                      </text>
+                    </>
+                  );
+                })()}
               </g>
             </svg>
           );
         })}
       </div>
 
+      {/* ปุ่มลอยกระทง */}
       <Link
         href="/Create_Krathong"
         className="absolute bottom-5 z-20 font-[Prompt] font-bold text-[#4557c7] text-[23px] px-10 py-2 bg-white rounded-[50px] shadow-[0_0_25px_10px_rgba(255,255,255,0.6)] transition-shadow duration-300"
