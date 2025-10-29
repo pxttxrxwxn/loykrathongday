@@ -63,7 +63,7 @@ export default function Home() {
   // กำหนดความเคลื่อนไหว
   const getRandomProps = (waveOptions: number[]) => {
     const waveY = waveOptions[Math.floor(Math.random() * waveOptions.length)];
-    const dur = (13 + Math.random() * 15).toFixed(1);
+    const dur = (15 + Math.random() * 15).toFixed(0);
     return { waveY, dur };
   };
 
