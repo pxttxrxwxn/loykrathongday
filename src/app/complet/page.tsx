@@ -13,7 +13,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-purple-500 to-blue-400 flex items-center justify-center">
+    <div className="relative min-h-screen bg-linear-to-b from-purple-500 to-blue-400 flex items-center justify-center">
       {/* ป๊อปอัพ */}
       <AnimatePresence>
         {showPopup && (
@@ -33,7 +33,7 @@ export default function Home() {
 
             <button
               onClick={() => setShowPopup(false)}
-              className="absolute top-0 right-1 bg-white/0 rounded-full p-2 text-xl font-bold text-black transition"
+              className="absolute top-0 right-1 bg-white/0 rounded-full p-3 text-2xl font-bold text-black transition"
             >
               ✕
             </button>
