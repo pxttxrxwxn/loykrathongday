@@ -69,6 +69,18 @@ export default function Home() {
 
   const waveLayers = [15, 75, 158];
 
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsTablet(width >= 1180 && width <= 1366);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
       {/* พื้นหลังวิดีโอ */}
@@ -78,7 +90,7 @@ export default function Home() {
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        className="absolute top-0 left-0 w-full h-full object-fill z-0"
       />
 
       {/* แสดงจำนวนกระทง */}
@@ -97,11 +109,11 @@ export default function Home() {
       ) : (
         <div className="absolute top-[40%] left-[37.7%] p-1 z-40">
           <div className="flex items-center justify-center gap-2 font-[prompt]">
-            <h1 className="text-3xl text-[#4a4649]">จำนวนกระทง</h1>
-            <h1 className="text-3xl text-[#4a4649]">
+            <h1 className={`text-[#4a4649] ${isTablet ? "text-2xl" : "text-3xl"}`}>จำนวนกระทง</h1>
+            <h1 className={`text-[#4a4649] ${isTablet ? "text-2xl" : "text-3xl"}`}>
               {krathongs.length.toString().padStart(3, "0")}
             </h1>
-            <h2 className="text-3xl text-[#4a4649]">กระทง</h2>
+            <h2 className={`text-[#4a4649] ${isTablet ? "text-2xl" : "text-3xl"}`}>กระทง</h2>
           </div>
         </div>
       )}
