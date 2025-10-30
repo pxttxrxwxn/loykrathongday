@@ -76,31 +76,34 @@ export default function Complet() {
         className="fixed top-0 left-0 w-full h-full object-fill z-0"
       />
       {isMobile ? (
-      <AnimatePresence>
-        {showPopup && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 50 }}
-            transition={{ duration: 0.4 }}
-            className="fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2"
-          >
-            <Image
-              src="/success-star.png"
-              alt="success"
-              width={500}
-              height={350}
-            />
+<AnimatePresence>
+  {showPopup && (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8, y: 50 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.8, y: 50 }}
+      transition={{ duration: 0.4 }}
+      className="fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2"
+    >
+      <div className="relative w-[300px] h-[140px]"> {/* ปรับขนาดตรงนี้ได้ */}
+        <Image
+          src="/success-star.png"
+          alt="success"
+          fill
+          className="object-contain"
+        />
+      </div>
 
-            <button
-              onClick={() => setShowPopup(false)}
-              className="absolute top-0 right-0 bg-white/0 rounded-full p-1 text-l font-bold text-black transition"
-            >
-              ✕
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>) : (
+      <button
+        onClick={() => setShowPopup(false)}
+        className="absolute top-2 right-0 bg-white/0 rounded-full p-2 text-2xl font-bold text-black transition"
+      >
+        ✕
+      </button>
+    </motion.div>
+  )}
+</AnimatePresence>
+) : (
       <AnimatePresence>
         {showPopup && (
           <motion.div
