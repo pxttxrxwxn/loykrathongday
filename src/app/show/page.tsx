@@ -113,11 +113,9 @@ export default function Show() {
         console.error("เกิดข้อผิดพลาดในการบันทึกข้อมูล:", insertError);
         return;
       }
-
-      // 5. เคลียร์ localStorage และ redirect
       localStorage.removeItem("selectedKrathongData");
       localStorage.removeItem("finalKrathongInfo");
-      router.push("/");
+      router.push("/complet");
     } catch (err) {
       console.error(err);
     }
@@ -138,7 +136,7 @@ export default function Show() {
         loop
         muted
         playsInline
-        className="fixed top-0 left-0 w-full h-full object-cover z-0"
+        className="fixed top-0 left-0 w-full h-full object-fill z-0"
       />
       {isMobile ? (
       <div className="absolute z-20 flex w-full items-center justify-start">
