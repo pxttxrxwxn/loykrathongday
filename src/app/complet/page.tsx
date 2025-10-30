@@ -4,17 +4,15 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-export default function Home() {
+export default function Complet() {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    // แสดงป๊อปอัพทันทีเมื่อเข้าหน้า
     setShowPopup(true);
   }, []);
 
   return (
     <div className="relative min-h-screen bg-linear-to-b from-purple-500 to-blue-400 flex items-center justify-center">
-      {/* ป๊อปอัพ */}
       <AnimatePresence>
         {showPopup && (
           <motion.div
