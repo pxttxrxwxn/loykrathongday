@@ -128,7 +128,7 @@ export default function Complet() {
       </AnimatePresence>)
       }
       {isMobile ? (
-        <div className="absolute top-[30%] left-[50%] p-1 z-40 -translate-x-1/2">
+        <div className="absolute top-[28%] left-[50%] p-1 z-40 -translate-x-1/2">
           <h1
             className="text-4xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
             style={{
