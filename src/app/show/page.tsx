@@ -138,7 +138,7 @@ export default function Show() {
         loop
         muted
         playsInline
-        className="fixed top-0 left-0 w-full h-full object-fill z-0"
+        className="fixed top-0 left-0 w-full h-full object-cover z-0"
       />
       {isMobile ? (
       <div className="absolute z-20 flex w-full items-center justify-start">
