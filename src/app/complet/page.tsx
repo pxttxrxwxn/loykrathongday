@@ -85,7 +85,7 @@ export default function Complet() {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
       <video
-        src={isMobile ? "/videos/background6.mp4" : "/videos/background5.mp4"}
+        src={isMobile ? "/videos/background6_1.mp4" : "/videos/background5.mp4"}
         autoPlay
         loop
         muted
@@ -158,16 +158,61 @@ export default function Complet() {
 
       {/* แสดงจำนวนกระทง */}
       {isMobile ? (
-        <div className="fixed -translate-y-8/2 left-[50%] p-1 z-40 -translate-x-1/2">
-          <h1
-            className="text-3xl sm:text-4xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
-            style={{
-              WebkitTextStroke: "1.5px #5e17eb",
-              WebkitTextFillColor: "#ffda4d",
-            }}
-          >
-            {krathongs.length.toString().padStart(3, "0")}
-          </h1>
+        <div className="fixed  left-[50%] p-1 z-40 -translate-x-1/2 -top-[20%]">
+          <div className="flex items-center justify-center w-screen h-screen ">
+            <div className="relative">
+              <svg
+                width="265"
+                height="150"
+                viewBox="0 0 1583 616"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="drop-shadow-xl"
+              >
+                <rect
+                  x="23"
+                  y="23"
+                  width="1537"
+                  height="570"
+                  rx="150"
+                  fill="white"
+                  fillOpacity="0.7"
+                  stroke="url(#paint0_linear_362_447)"
+                  strokeWidth="30"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_362_447"
+                    x1="791.5"
+                    y1="0"
+                    x2="791.5"
+                    y2="616"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stopColor="#6131BF" />
+                    <stop offset="0.5" stopColor="#B07BCE" />
+                    <stop offset="1" stopColor="#81CEFF" stopOpacity="0.5" />
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              {/* ข้อความตรงกลาง */}
+              <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-[63%] pt-5 z-40 flex flex-col items-center gap-3">
+                <h1 className="text-[19.151px] text-[#4557c7] font-bold font-[prompt]">
+                  อัปเดตจำนวนกระทงล่าสุด
+                </h1>
+                <h1
+                  className="text-2xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
+                  style={{
+                    WebkitTextStroke: "1px #5e17eb",
+                    WebkitTextFillColor: "#ffda4d",
+                  }}
+                >
+                  {krathongs.length.toString().padStart(3, "0")}
+                </h1>
+              </div>
+            </div>
+          </div>
         </div>
       ) : isTablet ? (
         <div className="fixed top-[38%] left-[38.3%] p-1 z-40">
