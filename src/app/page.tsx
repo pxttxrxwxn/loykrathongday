@@ -14,6 +14,7 @@ interface KrathongInfo {
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
   const [width, setWidth] = useState(1920);
   const [krathongs, setKrathongs] = useState<KrathongInfo[]>([]);
   const [displayKrathongs, setDisplayKrathongs] = useState<KrathongInfo[]>([]);
@@ -23,8 +24,10 @@ export default function Home() {
   // ตรวจขนาดหน้าจอ
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-      setWidth(window.innerWidth);
+      const windowWidth = window.innerWidth;
+      setIsMobile(windowWidth < 768);
+      setIsTablet(windowWidth >= 768 && windowWidth < 1024);
+      setWidth(windowWidth);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -45,20 +48,20 @@ export default function Home() {
     fetchKrathongs();
   }, []);
 
-  // จัดชุดกระทง (batch ละ 10)
+  // จัดชุดกระทง
   useEffect(() => {
     if (krathongs.length === 0) return;
 
-    if (krathongs.length <= 6) {
-      // ถ้าน้อยกว่าหรือเท่ากับ 10 → แสดงทั้งหมด
+    const maxDisplay = isMobile ? 4 : isTablet ? 5 : 6;
+    
+    if (krathongs.length <= maxDisplay) {
       setDisplayKrathongs(krathongs);
     } else {
-      // ถ้ามากกว่า 10 → แสดงเฉพาะ batch ปัจจุบัน
-      const start = batchIndex * 6;
-      const end = start + 6;
+      const start = batchIndex * maxDisplay;
+      const end = start + maxDisplay;
       setDisplayKrathongs(krathongs.slice(start, end));
     }
-  }, [krathongs, batchIndex]);
+  }, [krathongs, batchIndex, isMobile, isTablet]);
 
   // กำหนดความเคลื่อนไหว
   const getRandomProps = (waveOptions: number[]) => {
@@ -67,19 +70,14 @@ export default function Home() {
     return { waveY, dur };
   };
 
-  const waveLayers = [15, 75, 158];
+  const waveLayers = isMobile ? [20, 60, 120] : isTablet ? [18, 70, 140] : [15, 75, 158];
 
-  const [isTablet, setIsTablet] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setIsTablet(width >= 1180 && width <= 1366);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  // ขนาดกระทงตามหน้าจอ
+  const krathongSize = isMobile ? 70 : isTablet ? 85 : 100;
+  const fontSize = {
+    name: isMobile ? 12 : isTablet ? 13 : 14,
+    wish: isMobile ? 10 : isTablet ? 11 : 12,
+  };
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
@@ -90,36 +88,46 @@ export default function Home() {
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-fill z-0"
+        className="absolute top-0 left-0 w-full h-full object-cover z-0"
       />
 
       {/* แสดงจำนวนกระทง */}
       {isMobile ? (
         <div className="absolute top-[25.9%] left-[58%] p-1 z-40 -translate-x-1/2">
           <h1
-            className="text-4xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
+            className="text-3xl sm:text-4xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
             style={{
-              WebkitTextStroke: "2px #5e17eb",
+              WebkitTextStroke: "1.5px #5e17eb",
               WebkitTextFillColor: "#ffda4d",
             }}
           >
             {krathongs.length.toString().padStart(3, "0")}
           </h1>
         </div>
+      ) : isTablet ? (
+        <div className="absolute top-[38%] left-[38%] p-1 z-40">
+          <div className="flex items-center justify-center gap-2 font-[prompt]">
+            <h1 className="text-2xl text-[#4a4649]">จำนวนกระทง</h1>
+            <h1 className="text-2xl text-[#4a4649]">
+              {krathongs.length.toString().padStart(3, "0")}
+            </h1>
+            <h2 className="text-2xl text-[#4a4649]">กระทง</h2>
+          </div>
+        </div>
       ) : (
         <div className="absolute top-[40%] left-[37.7%] p-1 z-40">
           <div className="flex items-center justify-center gap-2 font-[prompt]">
-            <h1 className={`text-[#4a4649] ${isTablet ? "text-2xl" : "text-3xl"}`}>จำนวนกระทง</h1>
-            <h1 className={`text-[#4a4649] ${isTablet ? "text-2xl" : "text-3xl"}`}>
+            <h1 className="text-3xl text-[#4a4649]">จำนวนกระทง</h1>
+            <h1 className="text-3xl text-[#4a4649]">
               {krathongs.length.toString().padStart(3, "0")}
             </h1>
-            <h2 className={`text-[#4a4649] ${isTablet ? "text-2xl" : "text-3xl"}`}>กระทง</h2>
+            <h2 className="text-3xl text-[#4a4649]">กระทง</h2>
           </div>
         </div>
       )}
 
       {/* กระทงลอยน้ำ */}
-      <div className="absolute bottom-0 w-full flex flex-col items-center justify-end gap-y-10 h-[500px] overflow-visible">
+      <div className="absolute bottom-0 w-full flex flex-col items-center justify-end gap-y-10 h-[400px] sm:h-[450px] lg:h-[500px] overflow-visible">
         {displayKrathongs.map((k, layerIdx) => {
           const { waveY, dur } = getRandomProps(waveLayers);
 
@@ -127,9 +135,8 @@ export default function Home() {
             <svg
               key={`wave-${k.idx}-${layerIdx}`}
               viewBox={`0 0 ${width} 230`}
-              className="absolute w-full h-[500px] top-16 left-0"
+              className="absolute w-full h-[400px] sm:h-[450px] lg:h-[500px] top-16 left-0"
             >
-              {/* กระทงและข้อความรวมกัน */}
               <g
                 style={{ cursor: "pointer" }}
                 onMouseEnter={() => (hoverRef.current = k.idx)}
@@ -155,25 +162,28 @@ export default function Home() {
                 {/* กระทง */}
                 <image
                   href={k.image_path}
-                  x="-50"
-                  y="-50"
-                  width="100"
-                  height="100"
+                  x={-krathongSize / 2}
+                  y={-krathongSize / 2}
+                  width={krathongSize}
+                  height={krathongSize}
                   opacity="1"
                 />
 
                 {/* ข้อความ */}
                 {(() => {
-                  const padding = 10;
-                  const nameLength = k.showName.length * 8.5;
-                  const wishLength = k.wish.length * 7;
+                  const padding = isMobile ? 8 : 10;
+                  const charWidth = isMobile ? 7 : 8.5;
+                  const nameLength = k.showName.length * charWidth;
+                  const wishLength = k.wish.length * (charWidth - 1.5);
                   const boxWidth = Math.max(nameLength, wishLength) + padding * 2;
-                  const boxHeight = 50;
+                  const boxHeight = isMobile ? 44 : isTablet ? 47 : 50;
+                  const boxY = isMobile ? -85 : isTablet ? -90 : -95;
+                  
                   return (
                     <>
                       <rect
                         x={-boxWidth / 2}
-                        y="-95"
+                        y={boxY}
                         width={boxWidth}
                         height={boxHeight}
                         rx="8"
@@ -181,10 +191,10 @@ export default function Home() {
                       />
                       <text
                         x="0"
-                        y="-75"
+                        y={boxY + 20}
                         textAnchor="middle"
                         fontFamily="Prompt"
-                        fontSize="14"
+                        fontSize={fontSize.name}
                         fill="#333"
                         fontWeight="bold"
                       >
@@ -192,10 +202,10 @@ export default function Home() {
                       </text>
                       <text
                         x="0"
-                        y="-58"
+                        y={boxY + 37}
                         textAnchor="middle"
                         fontFamily="Prompt"
-                        fontSize="12"
+                        fontSize={fontSize.wish}
                         fill="#555"
                       >
                         {k.wish}
@@ -212,7 +222,13 @@ export default function Home() {
       {/* ปุ่มลอยกระทง */}
       <Link
         href="/Create_Krathong"
-        className="absolute bottom-5 z-20 font-[Prompt] font-bold text-[#4557c7] text-[23px] px-10 py-2 bg-white rounded-[50px] shadow-[0_0_25px_10px_rgba(255,255,255,0.6)] transition-shadow duration-300"
+        className="absolute bottom-5 z-20 font-[Prompt] font-bold text-[#4557c7] 
+                   text-lg sm:text-xl lg:text-[23px] 
+                   px-6 sm:px-8 lg:px-10 
+                   py-2 bg-white rounded-[50px] 
+                   shadow-[0_0_25px_10px_rgba(255,255,255,0.6)] 
+                   hover:shadow-[0_0_30px_15px_rgba(255,255,255,0.8)]
+                   transition-shadow duration-300"
       >
         ลอยกระทง
       </Link>
