@@ -28,7 +28,7 @@ export default function Complet() {
     const handleResize = () => {
       const windowWidth = window.innerWidth;
       setIsMobile(windowWidth < 768);
-      setIsTablet(windowWidth >= 768 && windowWidth < 1024);
+      setIsTablet(windowWidth >= 768 && windowWidth < 1400);
       setWidth(windowWidth);
     };
     handleResize();
@@ -170,7 +170,7 @@ export default function Complet() {
           </h1>
         </div>
       ) : isTablet ? (
-        <div className="absolute top-[38%] left-[38.5%] p-1 z-40">
+        <div className="absolute top-[38%] left-[38.3%] p-1 z-40">
           <div className="flex items-center justify-center gap-2 font-[prompt]">
             <h1 className="text-2xl text-[#4a4649]">จำนวนกระทง</h1>
             <h1 className="text-2xl text-[#4a4649]">
