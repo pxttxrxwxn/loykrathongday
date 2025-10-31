@@ -26,7 +26,7 @@ export default function Home() {
     const handleResize = () => {
       const windowWidth = window.innerWidth;
       setIsMobile(windowWidth < 768);
-      setIsTablet(windowWidth >= 768 && windowWidth < 1024);
+      setIsTablet(windowWidth >= 768 && windowWidth < 1400);
       setWidth(windowWidth);
     };
     handleResize();
