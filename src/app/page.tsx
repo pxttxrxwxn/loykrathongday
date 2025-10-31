@@ -107,11 +107,11 @@ export default function Home() {
       ) : isTablet ? (
         <div className="absolute top-[40%] left-[35.5%] p-1 z-40">
           <div className="flex items-center justify-center gap-2 font-[prompt]">
-            <h1 className="text-[27px] text-[#4a4649]">จำนวนกระทง</h1>
-            <h1 className="text-[27px] text-[#4a4649]">
+            <h1 className="text-[25px] text-[#4a4649]">จำนวนกระทง</h1>
+            <h1 className="text-[25px] text-[#4a4649]">
               {krathongs.length.toString().padStart(3, "0")}
             </h1>
-            <h2 className="text-[27px] text-[#4a4649]">กระทง</h2>
+            <h2 className="text-[25px] text-[#4a4649]">กระทง</h2>
           </div>
         </div>
       ) : (
