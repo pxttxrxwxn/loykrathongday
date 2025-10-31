@@ -73,21 +73,7 @@ export default function Show() {
     }
 
     try {
-      // 1. ดึงค่า id ล่าสุด
-      const { data: lastRow, error: fetchError } = await supabase
-        .from("information")
-        .select("idx")
-        .order("idx", { ascending: false })
-        .limit(1)
-        .maybeSingle();
 
-      if (fetchError) {
-        console.error("เกิดข้อผิดพลาดในการดึงข้อมูล id:", fetchError);
-        return;
-      }
-
-      // 2. คำนวณ id ใหม่
-      const newId = lastRow ? lastRow.idx + 1 : 1;
 
       // 3. เตรียม path ของภาพ
       const krathongImage =
@@ -101,7 +87,6 @@ export default function Show() {
         .from("information")
         .insert([
           {
-            idx: newId,
             showName: showName,
             wish: Desc,
             image_path: krathongImage,
