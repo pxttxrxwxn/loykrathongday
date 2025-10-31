@@ -283,7 +283,7 @@ export default function Complet() {
       {/* ปุ่มลอยกระทง */}
       <Link
         href="/Create_Krathong"
-        className="absolute bottom-5 z-20 font-[Prompt] font-bold text-[#4557c7] 
+        className="fixed bottom-5 z-20 font-[Prompt] font-bold text-[#4557c7] 
                    text-lg sm:text-xl lg:text-[23px] 
                    px-6 sm:px-8 lg:px-10 
                    py-2 bg-white rounded-[50px] 
