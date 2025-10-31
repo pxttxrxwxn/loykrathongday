@@ -145,7 +145,7 @@ export default function Complet() {
 
               <button
                 onClick={() => setShowPopup(false)}
-                className="absolute top-0 right-1 bg-white/0 rounded-full p-3 
+                className="fixed top-18 right-2 bg-white/0 rounded-full p-3 
                            text-2xl font-bold text-black 
                            hover:scale-110 transition-transform"
               >
@@ -192,7 +192,7 @@ export default function Complet() {
       )}
 
       {/* กระทงลอยน้ำ */}
-      <div className="absolute bottom-0 w-full flex flex-col items-center justify-end gap-y-10 h-[400px] sm:h-[450px] lg:h-[500px] overflow-visible">
+      <div className="fixed bottom-0 w-full flex flex-col items-center justify-end gap-y-10 h-[400px] sm:h-[450px] lg:h-[500px] overflow-visible">
         {displayKrathongs.map((k, layerIdx) => {
           const { waveY, dur } = getRandomProps(waveLayers);
 
