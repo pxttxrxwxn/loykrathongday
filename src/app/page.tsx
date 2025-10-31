@@ -105,7 +105,7 @@ export default function Home() {
           </h1>
         </div>
       ) : isTablet ? (
-        <div className="absolute top-[40%] left-[35.5%] p-1 z-40">
+        <div className="absolute top-[40%] md:left-[34.3%] lg:left-[35.5%] p-1 z-40">
           <div className="flex items-center justify-center gap-2 font-[prompt]">
             <h1 className="md:text-2xl lg:text-[25px] text-[#4a4649]">จำนวนกระทง</h1>
             <h1 className="md:text-2xl lg:text-[25px] text-[#4a4649]">

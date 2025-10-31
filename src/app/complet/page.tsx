@@ -27,7 +27,7 @@ export default function Complet() {
   useEffect(() => {
     const handleResize = () => {
       const windowWidth = window.innerWidth;
-      setIsMobile(windowWidth < 768);
+      setIsMobile(windowWidth < 430);
       setIsTablet(windowWidth >= 768 && windowWidth < 1400);
       setWidth(windowWidth);
     };
@@ -158,7 +158,7 @@ export default function Complet() {
 
       {/* แสดงจำนวนกระทง */}
       {isMobile ? (
-        <div className="fixed top-[30%] left-[50%] p-1 z-40 -translate-x-1/2">
+        <div className="fixed -translate-y-7/2 left-[50%] p-1 z-40 -translate-x-1/2">
           <h1
             className="text-3xl sm:text-4xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
             style={{
