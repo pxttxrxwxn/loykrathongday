@@ -170,7 +170,7 @@ export default function Complet() {
           </h1>
         </div>
       ) : isTablet ? (
-        <div className="absolute top-[38%] left-[38.3%] p-1 z-40">
+        <div className="fixed top-[38%] left-[38.3%] p-1 z-40">
           <div className="flex items-center justify-center gap-2 font-[prompt]">
             <h1 className="text-2xl text-[#4a4649]">จำนวนกระทง</h1>
             <h1 className="text-2xl text-[#4a4649]">
@@ -180,7 +180,7 @@ export default function Complet() {
           </div>
         </div>
       ) : (
-        <div className="absolute top-[38%] left-[38.7%] p-1 z-40">
+        <div className="fixed top-[38%] left-[38.7%] p-1 z-40">
           <div className="flex items-center justify-center gap-2 font-[prompt]">
             <h1 className="text-3xl text-[#4a4649]">จำนวนกระทง</h1>
             <h1 className="text-3xl text-[#4a4649]">
