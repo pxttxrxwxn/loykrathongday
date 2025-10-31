@@ -93,7 +93,7 @@ export default function Home() {
 
       {/* แสดงจำนวนกระทง */}
       {isMobile ? (
-        <div className="absolute top-[25.9%] left-[58%] p-1 z-40 -translate-x-1/2">
+        <div className="absolute top-[29%] left-[58%] p-1 z-40 -translate-x-1/2">
           <h1
             className="text-3xl sm:text-4xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
             style={{

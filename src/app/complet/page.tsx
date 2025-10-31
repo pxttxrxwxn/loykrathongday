@@ -104,7 +104,7 @@ export default function Complet() {
               transition={{ duration: 0.4 }}
               className="fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2"
             >
-              <div className="relative w-[250px] h-[120px] sm:w-[300px] sm:h-[140px]">
+              <div className="relative w-[300px] h-[120px] sm:w-[300px] sm:h-[140px]">
                 <Image
                   src="/success-star.png"
                   alt="success"
@@ -115,7 +115,7 @@ export default function Complet() {
 
               <button
                 onClick={() => setShowPopup(false)}
-                className="absolute top-2 right-0 bg-white/0 rounded-full p-2 
+                className="absolute top-0 right-1 bg-white/0 rounded-full p-2 
                            text-xl sm:text-2xl font-bold text-black 
                            hover:scale-110 transition-transform"
               >
@@ -158,7 +158,7 @@ export default function Complet() {
 
       {/* แสดงจำนวนกระทง */}
       {isMobile ? (
-        <div className="fixed top-[28%] left-[50%] p-1 z-40 -translate-x-1/2">
+        <div className="fixed top-[30%] left-[50%] p-1 z-40 -translate-x-1/2">
           <h1
             className="text-3xl sm:text-4xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
             style={{
