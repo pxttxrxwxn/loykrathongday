@@ -195,8 +195,6 @@ export default function Complet() {
                   </linearGradient>
                 </defs>
               </svg>
-
-              {/* ข้อความตรงกลาง */}
               <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-[63%] pt-5 z-40 flex flex-col items-center gap-3">
                 <h1 className="text-[18px] text-[#4557c7] font-bold font-[prompt]">
                   อัปเดตจำนวนกระทงล่าสุด
