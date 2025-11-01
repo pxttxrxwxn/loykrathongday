@@ -105,105 +105,105 @@ export default function Home() {
           </h1>
         </div>
       ) : isTablet ? (
-<div className="fixed left-[47.5%] p-1 z-40 -translate-x-1/2 -top-[5%]">
-  <div className="flex items-center justify-center w-screen h-screen">
-    <div className="relative">
-      <svg
-        width="310"
-        height="150"
-        viewBox="0 0 1583 616"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="drop-shadow-xl"
-      >
-        <rect
-          x="23"
-          y="23"
-          width="1537"
-          height="350"
-          rx="150"
-          fill="white"
-          fillOpacity="0.7"
-          stroke="url(#paint0_linear_362_447)"
-          strokeWidth="30"
-        />
-        <defs>
-          <linearGradient
-            id="paint0_linear_362_447"
-            x1="791.5"
-            y1="0"
-            x2="791.5"
-            y2="616"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor="#6131BF" />
-            <stop offset="0.5" stopColor="#B07BCE" />
-            <stop offset="1" stopColor="#81CEFF" stopOpacity="0.5" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <div className="absolute inset-0 flex justify-center items-center z-50 -top-[30%]">
-        <div className="flex items-center justify-center gap-2 font-[prompt]">
-          <h1 className="text-2xl text-[#4a4649]">จำนวนกระทง</h1>
-          <h1 className="text-2xl text-[#4a4649]">
-            {krathongs.length.toString().padStart(3, "0")}
-          </h1>
-          <h2 className="text-2xl text-[#4a4649]">กระทง</h2>
+        <div className="fixed left-[47.5%] p-1 z-40 -translate-x-1/2 -top-[5%]">
+          <div className="flex items-center justify-center w-screen h-screen">
+            <div className="relative">
+              <svg
+                width="310"
+                height="150"
+                viewBox="0 0 1583 616"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="drop-shadow-xl"
+              >
+                <rect
+                  x="23"
+                  y="23"
+                  width="1537"
+                  height="350"
+                  rx="150"
+                  fill="white"
+                  fillOpacity="0.7"
+                  stroke="url(#paint0_linear_362_447)"
+                  strokeWidth="30"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_362_447"
+                    x1="791.5"
+                    y1="0"
+                    x2="791.5"
+                    y2="616"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stopColor="#6131BF" />
+                    <stop offset="0.5" stopColor="#B07BCE" />
+                    <stop offset="1" stopColor="#81CEFF" stopOpacity="0.5" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div className="absolute inset-0 flex justify-center items-center z-50 -top-[30%]">
+                <div className="flex items-center justify-center gap-2 font-[prompt]">
+                  <h1 className="text-2xl text-[#4a4649]">จำนวนกระทง</h1>
+                  <h1 className="text-2xl text-[#4a4649]">
+                    {krathongs.length.toString().padStart(3, "0")}
+                  </h1>
+                  <h2 className="text-2xl text-[#4a4649]">กระทง</h2>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
       ) : (
-<div className="fixed left-[48.5%] p-1 z-40 -translate-x-1/2 -top-[5%]">
-  <div className="flex items-center justify-center w-screen h-screen">
-    <div className="relative">
-      <svg
-        width="370"
-        height="150"
-        viewBox="0 0 1583 616"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="drop-shadow-xl"
-      >
-        <rect
-          x="23"
-          y="23"
-          width="1537"
-          height="350"
-          rx="150"
-          fill="white"
-          fillOpacity="0.7"
-          stroke="url(#paint0_linear_362_447)"
-          strokeWidth="30"
-        />
-        <defs>
-          <linearGradient
-            id="paint0_linear_362_447"
-            x1="791.5"
-            y1="0"
-            x2="791.5"
-            y2="616"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor="#6131BF" />
-            <stop offset="0.5" stopColor="#B07BCE" />
-            <stop offset="1" stopColor="#81CEFF" stopOpacity="0.5" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <div className="absolute inset-0 flex justify-center items-center z-50 -top-[39%]">
-        <div className="flex items-center justify-center gap-2 font-[prompt]">
-          <h1 className="text-3xl text-[#4a4649]">จำนวนกระทง</h1>
-          <h1 className="text-3xl text-[#4a4649]">
-            {krathongs.length.toString().padStart(3, "0")}
-          </h1>
-          <h2 className="text-3xl text-[#4a4649]">กระทง</h2>
+        <div className="fixed left-[48.5%] p-1 z-40 -translate-x-1/2 -top-[5%]">
+          <div className="flex items-center justify-center w-screen h-screen">
+            <div className="relative">
+              <svg
+                width="370"
+                height="150"
+                viewBox="0 0 1583 616"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="drop-shadow-xl"
+              >
+                <rect
+                  x="23"
+                  y="23"
+                  width="1537"
+                  height="350"
+                  rx="150"
+                  fill="white"
+                  fillOpacity="0.7"
+                  stroke="url(#paint0_linear_362_447)"
+                  strokeWidth="30"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_362_447"
+                    x1="791.5"
+                    y1="0"
+                    x2="791.5"
+                    y2="616"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stopColor="#6131BF" />
+                    <stop offset="0.5" stopColor="#B07BCE" />
+                    <stop offset="1" stopColor="#81CEFF" stopOpacity="0.5" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div className="absolute inset-0 flex justify-center items-center z-50 -top-[39%]">
+                <div className="flex items-center justify-center gap-2 font-[prompt]">
+                  <h1 className="text-3xl text-[#4a4649]">จำนวนกระทง</h1>
+                  <h1 className="text-3xl text-[#4a4649]">
+                    {krathongs.length.toString().padStart(3, "0")}
+                  </h1>
+                  <h2 className="text-3xl text-[#4a4649]">กระทง</h2>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
       )}
 
       {/* กระทงลอยน้ำ */}
