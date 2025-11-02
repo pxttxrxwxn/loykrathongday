@@ -93,7 +93,7 @@ export default function Home() {
 
       {/* แสดงจำนวนกระทง */}
       {isMobile ? (
-        <div className="absolute top-[28.5%] left-[58%] p-1 z-40 -translate-x-1/2">
+        <div className="absolute top-[28.5%] left-[58%] p-1 z-20 -translate-x-1/2">
           <h1
             className="text-3xl sm:text-4xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
             style={{
@@ -105,7 +105,7 @@ export default function Home() {
           </h1>
         </div>
       ) : isTablet ? (
-        <div className="fixed left-[47.5%] p-1 z-40 -translate-x-1/2 -top-[5%]">
+        <div className="fixed left-[47.5%] p-1 z-20 -translate-x-1/2 -top-[5%]">
           <div className="flex items-center justify-center w-screen h-screen">
             <div className="relative">
               <svg
@@ -155,7 +155,7 @@ export default function Home() {
           </div>
         </div>
       ) : (
-        <div className="fixed left-[48.5%] p-1 z-40 -translate-x-1/2 -top-[5%]">
+        <div className="fixed left-[48.5%] p-1 z-20 -translate-x-1/2 -top-[5%]">
           <div className="flex items-center justify-center w-screen h-screen">
             <div className="relative">
               <svg
@@ -302,7 +302,7 @@ export default function Home() {
       {/* ปุ่มลอยกระทง */}
       <Link
         href="/Create_Krathong"
-        className="fixed bottom-5 z-20 font-[Prompt] font-bold text-[#4557c7] 
+        className="fixed bottom-5 z-40 font-[Prompt] font-bold text-[#4557c7] 
                    text-lg sm:text-xl lg:text-[23px] 
                    px-6 sm:px-8 lg:px-10 
                    py-2 bg-white rounded-[50px] 
