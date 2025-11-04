@@ -62,7 +62,6 @@ export default function Show() {
     };
     setErrors(newErrors);
 
-    // ถ้ามี error ให้ alert ตามช่องที่ยังไม่กรอก
     if (Object.values(newErrors).some(Boolean)) {
       let message = "กรุณากรอกข้อมูลให้ครบถ้วน:\n";
       if (newErrors.showName) message += "- ชื่อที่ต้องการแสดง\n";
@@ -74,15 +73,12 @@ export default function Show() {
 
     try {
 
-
-      // 3. เตรียม path ของภาพ
       const krathongImage =
         krathongData?.completeImage ||
         `/Krathong/Krathong${
           krathongData?.krathong !== undefined ? krathongData.krathong + 1 : 1
         }.png`;
 
-      // 4. insert พร้อม id ที่กำหนดเอง
       const { error: insertError } = await supabase
         .from("information")
         .insert([
@@ -202,12 +198,12 @@ export default function Show() {
             </div>
             <div className="flex flex-col">
               <label className="text-[#000000] text-lg mb-1">
-                คำอวยพร ({Desc.length} / 50 ตัวอักษร)
+                คำอวยพร ({Desc.length} / 75 ตัวอักษร)
               </label>
               <textarea
                 value={Desc}
-                onChange={(e) => {if (e.target.value.length <= 50) setDesc(e.target.value);}}
-                placeholder="ไม่เกิน 50 ตัวอักษร"
+                onChange={(e) => {if (e.target.value.length <= 75) setDesc(e.target.value);}}
+                placeholder="ไม่เกิน 75 ตัวอักษร"
                 className="p-2 rounded focus:outline-none focus:ring-2 border focus:ring-[#C49A6C] bg-white text-black placeholder:text-[#0F0D13]/16"
               />
             </div>
@@ -327,12 +323,12 @@ export default function Show() {
                   </div>
                   <div className="flex flex-col">
                     <label className="text-[#000000] text-lg mb-1">
-                      คำอวยพร ({Desc.length} / 50 ตัวอักษร)
+                      คำอวยพร ({Desc.length} / 75 ตัวอักษร)
                     </label>
                     <textarea
                       value={Desc}
-                      onChange={(e) => {if (e.target.value.length <= 50) setDesc(e.target.value);}}
-                      placeholder="ไม่เกิน 50 ตัวอักษร"
+                      onChange={(e) => {if (e.target.value.length <= 75) setDesc(e.target.value);}}
+                      placeholder="ไม่เกิน 75 ตัวอักษร"
                       className="p-2 rounded focus:outline-none focus:ring-2 border focus:ring-[#C49A6C] bg-white text-black placeholder:text-[#0F0D13]/16"
                     />
                   </div>
