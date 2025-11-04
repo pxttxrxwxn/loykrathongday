@@ -268,9 +268,6 @@ export default function Home() {
           const { waveY, dur } = getRandomProps(waveLayers);
           const delay = layerIdx * 2;
 
-          const handleEnd = () => {
-            setDisplayKrathongs((prev) => prev.filter((item) => item.idx !== k.idx));
-          };
           return (
             <svg
               key={`wave-${k.idx}-${layerIdx}`}
@@ -299,7 +296,6 @@ export default function Home() {
                     T ${width * 1.0} ${waveY}
                     T ${width * 1.1} ${waveY + 5}
                     T ${width + 500} ${waveY} `}
-                  onEnd={handleEnd}
                 />
 
                 <image
