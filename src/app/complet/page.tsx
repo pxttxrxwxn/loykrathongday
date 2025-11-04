@@ -75,7 +75,6 @@ export default function Complet() {
     setShowPopup(true);
   }, []);
 
-  // ขนาดกระทงตามหน้าจอ
   const krathongSize = isMobile ? 70 : isTablet ? 85 : 100;
   const fontSize = {
     name: isMobile ? 12 : isTablet ? 13 : 14,
@@ -90,10 +89,8 @@ export default function Complet() {
         loop
         muted
         playsInline
-        className="fixed top-0 left-0 w-full h-full object-cover z-0"
+        className="fixed top-0 left-0 w-full h-full object-fill z-0"
       />
-
-      {/* Popup Success */}
       {isMobile ? (
         <AnimatePresence>
           {showPopup && (
@@ -155,8 +152,6 @@ export default function Complet() {
           )}
         </AnimatePresence>
       )}
-
-      {/* แสดงจำนวนกระทง */}
       {isMobile ? (
         <div className="fixed  left-[50%] p-1 z-20 -translate-x-1/2 -top-[20%]">
           <div className="flex items-center justify-center w-screen h-screen ">
@@ -313,8 +308,6 @@ export default function Complet() {
           </div>
         </div>
       )}
-
-      {/* กระทงลอยน้ำ */}
       <div className="fixed bottom-0 w-full flex flex-col items-center justify-end gap-y-10 h-[400px] sm:h-[450px] lg:h-[500px] overflow-visible">
         {displayKrathongs.map((k, layerIdx) => {
           const { waveY, dur } = getRandomProps(waveLayers);
@@ -402,8 +395,6 @@ export default function Complet() {
           );
         })}
       </div>
-
-      {/* ปุ่มลอยกระทง */}
       <Link
         href="/Create_Krathong"
         className="fixed bottom-5 z-40 font-[Prompt] font-bold text-[#4557c7] 

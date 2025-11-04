@@ -21,7 +21,6 @@ export default function Home() {
   const [batchIndex] = useState(0);
   const hoverRef = useRef<number | null>(null);
 
-  // ตรวจขนาดหน้าจอ
   useEffect(() => {
     const handleResize = () => {
       const windowWidth = window.innerWidth;
@@ -34,7 +33,6 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // ดึงข้อมูลจาก Supabase
   useEffect(() => {
     const fetchKrathongs = async () => {
       const { data, error } = await supabase
@@ -48,7 +46,6 @@ export default function Home() {
     fetchKrathongs();
   }, []);
 
-  // จัดชุดกระทง
   useEffect(() => {
     if (krathongs.length === 0) return;
 
@@ -63,7 +60,6 @@ export default function Home() {
     }
   }, [krathongs, batchIndex, isMobile, isTablet]);
 
-  // กำหนดความเคลื่อนไหว
   const getRandomProps = (waveOptions: number[]) => {
     const waveY = waveOptions[Math.floor(Math.random() * waveOptions.length)];
     const dur = (15 + Math.random() * 15).toFixed(0);
@@ -72,7 +68,6 @@ export default function Home() {
 
   const waveLayers = isMobile ? [20, 60, 120] : isTablet ? [18, 70, 140] : [15, 75, 158];
 
-  // ขนาดกระทงตามหน้าจอ
   const krathongSize = isMobile ? 70 : isTablet ? 85 : 100;
   const fontSize = {
     name: isMobile ? 12 : isTablet ? 13 : 14,
@@ -81,17 +76,15 @@ export default function Home() {
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
-      {/* พื้นหลังวิดีโอ */}
       <video
         src={isMobile ? "/videos/background2.mp4" : "/videos/background1.mp4"}
         autoPlay
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        className="absolute top-0 left-0 w-full h-full object-fill z-0"
       />
 
-      {/* แสดงจำนวนกระทง */}
       {isMobile ? (
         <div className="absolute top-[28.5%] left-[58%] p-1 z-20 -translate-x-1/2">
           <h1
@@ -206,7 +199,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* กระทงลอยน้ำ */}
       <div className="absolute bottom-0 w-full flex flex-col items-center justify-end gap-y-10 h-[400px] sm:h-[450px] lg:h-[500px] overflow-visible">
         {displayKrathongs.map((k, layerIdx) => {
           const { waveY, dur } = getRandomProps(waveLayers);
@@ -239,7 +231,6 @@ export default function Home() {
                     T ${width} ${waveY}`}
                 />
 
-                {/* กระทง */}
                 <image
                   href={k.image_path}
                   x={-krathongSize / 2}
@@ -249,7 +240,6 @@ export default function Home() {
                   opacity="1"
                 />
 
-                {/* ข้อความ */}
                 {(() => {
                   const padding = isMobile ? 8 : 10;
                   const charWidth = isMobile ? 7 : 8.5;
@@ -299,7 +289,6 @@ export default function Home() {
         })}
       </div>
 
-      {/* ปุ่มลอยกระทง */}
       <Link
         href="/Create_Krathong"
         className="fixed bottom-5 z-40 font-[Prompt] font-bold text-[#4557c7] 
