@@ -21,8 +21,8 @@ export default function Complet() {
   const [width, setWidth] = useState(1920);
   const [krathongs, setKrathongs] = useState<KrathongInfo[]>([]);
   const [displayKrathongs, setDisplayKrathongs] = useState<KrathongInfo[]>([]);
-  const [batchIndex] = useState(0);
   const hoverRef = useRef<number | null>(null);
+  const currentIndex = useRef(0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -52,16 +52,23 @@ export default function Complet() {
   useEffect(() => {
     if (krathongs.length === 0) return;
 
-    const maxDisplay = isMobile ? 4 : isTablet ? 5 : 6;
+    setDisplayKrathongs([krathongs[0]]);
+    currentIndex.current = 1;
 
-    if (krathongs.length <= maxDisplay) {
-      setDisplayKrathongs(krathongs);
-    } else {
-      const start = batchIndex * maxDisplay;
-      const end = start + maxDisplay;
-      setDisplayKrathongs(krathongs.slice(start, end));
-    }
-  }, [krathongs, batchIndex, isMobile, isTablet]);
+    const interval = setInterval(() => {
+      setDisplayKrathongs((prev) => {
+        if (prev.length < krathongs.length) {
+          const nextKrathong = krathongs[prev.length];
+          return [...prev, nextKrathong];
+        } else {
+          clearInterval(interval);
+          return prev;
+        }
+      });
+    }, );
+
+    return () => clearInterval(interval);
+  }, [krathongs]);
 
   const getRandomProps = (waveOptions: number[]) => {
     const waveY = waveOptions[Math.floor(Math.random() * waveOptions.length)];
@@ -84,7 +91,7 @@ export default function Complet() {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
       <video
-        src={isMobile ? "/videos/background6_1.mp4" : "/videos/background5.mp4"}
+        src={isMobile ? "/videos/background6.mp4" : "/videos/background5.mp4"}
         autoPlay
         loop
         muted
@@ -311,7 +318,11 @@ export default function Complet() {
       <div className="fixed bottom-0 w-full flex flex-col items-center justify-end gap-y-10 h-[400px] sm:h-[450px] lg:h-[500px] overflow-visible">
         {displayKrathongs.map((k, layerIdx) => {
           const { waveY, dur } = getRandomProps(waveLayers);
+          const delay = layerIdx * 2;
 
+          const handleEnd = () => {
+            setDisplayKrathongs((prev) => prev.filter((item) => item.idx !== k.idx));
+          };
           return (
             <svg
               key={`wave-${k.idx}-${layerIdx}`}
@@ -319,15 +330,15 @@ export default function Complet() {
               className="absolute w-full h-[400px] sm:h-[450px] lg:h-[500px] top-16 left-0"
             >
               <g
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", transform: "translate(-500px, 0)" }}
                 onMouseEnter={() => (hoverRef.current = k.idx)}
                 onMouseLeave={() => (hoverRef.current = null)}
               >
                 <animateMotion
                   dur={`${dur}s`}
-                  repeatCount="indefinite"
-                  begin={`0.08s`}
-                  path={`M-500 ${waveY}
+                  repeatCount="1"
+                  begin={`${delay}s`}
+                  path={`M-0 ${waveY}
                     Q ${width * 0.05} ${waveY - 10}, ${width * 0.1} ${waveY + 15}
                     T ${width * 0.2} ${waveY}
                     T ${width * 0.3} ${waveY + 5}
@@ -337,7 +348,10 @@ export default function Complet() {
                     T ${width * 0.7} ${waveY + 5}
                     T ${width * 0.8} ${waveY}
                     T ${width * 0.9} ${waveY + 5}
-                    T ${width} ${waveY}`}
+                    T ${width * 1.0} ${waveY}
+                    T ${width * 1.1} ${waveY + 5}
+                    T ${width + 500} ${waveY} `}
+                  onEnd={handleEnd}
                 />
                 <image
                   href={k.image_path}

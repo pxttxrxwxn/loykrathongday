@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { supabase } from "../lib/supabaseClient";
 
 interface KrathongInfo {
@@ -18,8 +19,8 @@ export default function Home() {
   const [width, setWidth] = useState(1920);
   const [krathongs, setKrathongs] = useState<KrathongInfo[]>([]);
   const [displayKrathongs, setDisplayKrathongs] = useState<KrathongInfo[]>([]);
-  const [batchIndex] = useState(0);
   const hoverRef = useRef<number | null>(null);
+  const currentIndex = useRef(0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -40,25 +41,32 @@ export default function Home() {
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (error) console.log("Error fetching krathongs:", error);
+      if (error) console.error("Error fetching krathongs:", error);
       else setKrathongs(data as KrathongInfo[]);
     };
     fetchKrathongs();
   }, []);
-
+  
   useEffect(() => {
     if (krathongs.length === 0) return;
 
-    const maxDisplay = isMobile ? 4 : isTablet ? 5 : 6;
-    
-    if (krathongs.length <= maxDisplay) {
-      setDisplayKrathongs(krathongs);
-    } else {
-      const start = batchIndex * maxDisplay;
-      const end = start + maxDisplay;
-      setDisplayKrathongs(krathongs.slice(start, end));
-    }
-  }, [krathongs, batchIndex, isMobile, isTablet]);
+    setDisplayKrathongs([krathongs[0]]);
+    currentIndex.current = 1;
+
+    const interval = setInterval(() => {
+      setDisplayKrathongs((prev) => {
+        if (prev.length < krathongs.length) {
+          const nextKrathong = krathongs[prev.length];
+          return [...prev, nextKrathong];
+        } else {
+          clearInterval(interval);
+          return prev;
+        }
+      });
+    }, );
+
+    return () => clearInterval(interval);
+  }, [krathongs]);
 
   const getRandomProps = (waveOptions: number[]) => {
     const waveY = waveOptions[Math.floor(Math.random() * waveOptions.length)];
@@ -66,7 +74,11 @@ export default function Home() {
     return { waveY, dur };
   };
 
-  const waveLayers = isMobile ? [20, 60, 120] : isTablet ? [18, 70, 140] : [15, 75, 158];
+  const waveLayers = isMobile
+    ? [20, 60, 120]
+    : isTablet
+    ? [18, 70, 140]
+    : [15, 75, 158];
 
   const krathongSize = isMobile ? 70 : isTablet ? 85 : 100;
   const fontSize = {
@@ -86,16 +98,68 @@ export default function Home() {
       />
 
       {isMobile ? (
-        <div className="absolute top-[28.5%] left-[58%] p-1 z-20 -translate-x-1/2">
-          <h1
-            className="text-3xl sm:text-4xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
-            style={{
-              WebkitTextStroke: "1.5px #5e17eb",
-              WebkitTextFillColor: "#ffda4d",
-            }}
-          >
-            {krathongs.length.toString().padStart(3, "0")}
-          </h1>
+        <div className="fixed  left-[50%] p-1 z-20 -translate-x-1/2 -top-[20%]">
+          <div className="flex items-center justify-center w-screen h-screen ">
+            <div className="relative">
+              <svg
+                width="265"
+                height="150"
+                viewBox="0 0 1583 616"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="drop-shadow-xl"
+              >
+                <rect
+                  x="23"
+                  y="23"
+                  width="1537"
+                  height="570"
+                  rx="150"
+                  fill="white"
+                  fillOpacity="0.7"
+                  stroke="url(#paint0_linear_362_447)"
+                  strokeWidth="30"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_362_447"
+                    x1="791.5"
+                    y1="0"
+                    x2="791.5"
+                    y2="616"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stopColor="#6131BF" />
+                    <stop offset="0.5" stopColor="#B07BCE" />
+                    <stop offset="1" stopColor="#81CEFF" stopOpacity="0.5" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] pt-5 z-40 flex flex-col items-center gap-3">
+                <h1 className="text-[18px] text-[#4557c7] font-bold font-[prompt]">
+                  อัปเดตจำนวนกระทงล่าสุด
+                </h1>
+                <div className="flex items-center justify-center gap-5">
+                  <Image 
+                    src="/krathong/krathong0.png" 
+                    alt="krathong"
+                    width={50}
+                    height={50}
+                    className="object-contain"
+                     />
+                  <h1
+                    className="text-2xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
+                    style={{
+                      WebkitTextStroke: "1px #5e17eb",
+                      WebkitTextFillColor: "#ffda4d",
+                    }}
+                  >
+                    {krathongs.length.toString().padStart(3, "0")}
+                  </h1>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       ) : isTablet ? (
         <div className="fixed left-[47.5%] p-1 z-20 -translate-x-1/2 -top-[5%]">
@@ -202,7 +266,11 @@ export default function Home() {
       <div className="absolute bottom-0 w-full flex flex-col items-center justify-end gap-y-10 h-[400px] sm:h-[450px] lg:h-[500px] overflow-visible">
         {displayKrathongs.map((k, layerIdx) => {
           const { waveY, dur } = getRandomProps(waveLayers);
+          const delay = layerIdx * 2;
 
+          const handleEnd = () => {
+            setDisplayKrathongs((prev) => prev.filter((item) => item.idx !== k.idx));
+          };
           return (
             <svg
               key={`wave-${k.idx}-${layerIdx}`}
@@ -210,15 +278,15 @@ export default function Home() {
               className="absolute w-full h-[400px] sm:h-[450px] lg:h-[500px] top-16 left-0"
             >
               <g
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", transform: "translate(-500px, 0)" }}
                 onMouseEnter={() => (hoverRef.current = k.idx)}
                 onMouseLeave={() => (hoverRef.current = null)}
               >
                 <animateMotion
                   dur={`${dur}s`}
-                  repeatCount="indefinite"
-                  begin={`0.08s`}
-                  path={`M-500 ${waveY}
+                  repeatCount="1"
+                  begin={`${delay}s`}
+                  path={`M-0 ${waveY}
                     Q ${width * 0.05} ${waveY - 10}, ${width * 0.1} ${waveY + 15}
                     T ${width * 0.2} ${waveY}
                     T ${width * 0.3} ${waveY + 5}
@@ -228,7 +296,10 @@ export default function Home() {
                     T ${width * 0.7} ${waveY + 5}
                     T ${width * 0.8} ${waveY}
                     T ${width * 0.9} ${waveY + 5}
-                    T ${width} ${waveY}`}
+                    T ${width * 1.0} ${waveY}
+                    T ${width * 1.1} ${waveY + 5}
+                    T ${width + 500} ${waveY} `}
+                  onEnd={handleEnd}
                 />
 
                 <image

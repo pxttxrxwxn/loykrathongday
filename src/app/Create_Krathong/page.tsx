@@ -36,6 +36,8 @@ export default function CreateKrathong() {
     "ดอกบัว",
     "ดอกลาเวนเดอร์",
     "ดอกคอสมอส",
+    "ดอกฟ้ามุ่ย",
+    "ดอกคำมอก",
   ];
 
   const handleSelectKrathong = (index: number) => {
@@ -124,7 +126,6 @@ export default function CreateKrathong() {
             </div>
           </div>
 
-          {/* เลือกดอกไม้ */}
           <div className="bg-white/60 rounded-3xl p-5 shadow-lg w-full mb-5">
             <div className="flex items-center gap-3 mb-4">
               <h1 className="bg-[#D9D9D9] rounded-full px-3 py-1 text-[12px] text-black">
@@ -134,7 +135,7 @@ export default function CreateKrathong() {
                 เลือกดอกไม้ {selectedFlowers.length}/2 แบบ
               </h3>
             </div>
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               {flowerNames.map((name, i) => (
                 <div
                   key={i}
@@ -191,7 +192,7 @@ export default function CreateKrathong() {
         </div>
       ) : (
         <div className="relative min-h-screen font-[Prompt]">
-          <div className="absolute top-10 z-20 w-full h-4/5 flex flex-row px-10 gap-10 overflow-y-auto">
+          <div className="absolute top-5 z-20 w-full h-[90%] flex flex-row px-10 gap-10">
             <div className="w-1/2 flex flex-col gap-5">
               <div className="bg-white/60 rounded-3xl p-5 shadow-lg">
                 <div className="flex items-center gap-3 mb-2">
@@ -222,7 +223,7 @@ export default function CreateKrathong() {
                   <h1 className="bg-[#D9D9D9] rounded-full px-3 py-1 text-[24px] text-black">เลือกดอกไม้</h1>
                   <h3 className="text-[18px] text-[#1E1E1E]/68">เลือกดอกไม้ {selectedFlowers.length}/2 แบบ</h3>
                 </div>
-                <div className="grid grid-cols-5 gap-2">
+                <div className="grid grid-cols-4 gap-1">
                   {flowerNames.map((name, i) => (
                     <div
                       key={i}
@@ -240,8 +241,8 @@ export default function CreateKrathong() {
                 </div>
               </div>
             </div>
-            <div className="w-1/2 flex items-center justify-center">
-              <div className="bg-white/60 rounded-3xl p-10 shadow-lg text-center w-3/4 h-full flex flex-col items-center justify-center">
+            <div className="w-1/2 flex items-start justify-center">
+              <div className="bg-white/60 rounded-3xl p-10 shadow-lg text-center w-3/4 h-[90%] flex flex-col items-center justify-center">
                 {selectedKrathong !== null ? (
                   <div className="flex flex-col items-center">
                     <div className="relative w-50 h-50 mb-4 animate-gentle-bounce">
@@ -272,7 +273,7 @@ export default function CreateKrathong() {
           <button
               onClick={handleSubmit}
               disabled={selectedKrathong === null || selectedFlowers.length !== 2}
-              className={`z-40 px-10 py-2 text-2xl rounded-full absolute bottom-8 left-1/2 transform -translate-x-1/2 shadow-[0_0_25px_10px_rgba(255,255,255,0.6)] transition ${
+              className={`z-40 px-10 py-2 text-2xl rounded-full absolute -bottom-10 mt-10 left-1/2 transform -translate-x-1/2 shadow-[0_0_25px_10px_rgba(255,255,255,0.6)] transition ${
                 selectedKrathong === null || selectedFlowers.length !== 2
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : "bg-[#FFFFFF]/80 text-black hover:scale-105 transition-all"
