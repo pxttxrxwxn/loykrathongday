@@ -141,7 +141,7 @@ export default function Home() {
                 </h1>
                 <div className="flex items-center justify-center gap-5">
                   <Image 
-                    src="/krathong/krathong0.png" 
+                    src="/Krathong/Krathong0.png" 
                     alt="krathong"
                     width={50}
                     height={50}
