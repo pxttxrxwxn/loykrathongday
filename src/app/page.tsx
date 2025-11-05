@@ -136,7 +136,7 @@ export default function Home() {
                 </defs>
               </svg>
               <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] pt-5 z-40 flex flex-col items-center gap-3">
-                <h1 className="text-[18px] text-[#4557c7] font-bold font-[prompt]">
+                <h1 className="text-[14px] text-[#4557c7] font-bold font-[prompt]">
                   อัปเดตจำนวนกระทงล่าสุด
                 </h1>
                 <div className="flex items-center justify-center gap-5">
@@ -148,7 +148,7 @@ export default function Home() {
                     className="object-contain"
                      />
                   <h1
-                    className="text-[20px] text-[#ffda4d] text-center font-extrabold font-[prompt]"
+                    className="text-2xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
                     style={{
                       WebkitTextStroke: "1px #5e17eb",
                       WebkitTextFillColor: "#ffda4d",
