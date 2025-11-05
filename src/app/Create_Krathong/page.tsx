@@ -22,10 +22,10 @@ export default function CreateKrathong() {
   const krathongNames = [
     "กระทงดอกบัว",
     "กระทงกรีบบัวอ่อน",
-    "กระทงกรีบบัวม่วง",
-    "กระทงใบตอง",
-    "กระทงกรีบบัว",
     "กระทงดอกดาวเรือง",
+    "กระทงใบตอง",
+    "กระทงกรีบบัวม่วง",
+    "กระทงกรีบบัว",
     "กระทงกะลา",
     "กระทงขนมปังเต่า",
   ];
@@ -135,7 +135,7 @@ export default function CreateKrathong() {
                 เลือกดอกไม้ {selectedFlowers.length}/2 แบบ
               </h3>
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-3">
               {flowerNames.map((name, i) => (
                 <div
                   key={i}
