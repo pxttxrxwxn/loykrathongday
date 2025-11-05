@@ -148,7 +148,7 @@ export default function Home() {
                     className="object-contain"
                      />
                   <h1
-                    className="text-2xl text-[#ffda4d] text-center font-extrabold font-[prompt]"
+                    className="text-[20px] text-[#ffda4d] text-center font-extrabold font-[prompt]"
                     style={{
                       WebkitTextStroke: "1px #5e17eb",
                       WebkitTextFillColor: "#ffda4d",
