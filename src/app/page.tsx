@@ -135,8 +135,8 @@ export default function Home() {
                   </linearGradient>
                 </defs>
               </svg>
-              <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] pt-5 z-40 flex flex-col items-center gap-3">
-                <h1 className="text-[14px] text-[#4557c7] font-bold font-[prompt]">
+              <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] pt-5 z-40 flex flex-col items-center gap-3 w-full">
+                <h1 className="text-[18px] text-[#4557c7] font-bold font-[prompt]">
                   อัปเดตจำนวนกระทงล่าสุด
                 </h1>
                 <div className="flex items-center justify-center gap-5">
