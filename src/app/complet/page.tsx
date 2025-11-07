@@ -208,7 +208,7 @@ export default function Complet() {
                     WebkitTextFillColor: "#ffda4d",
                   }}
                 >
-                  {krathongs.length.toString().padStart(3, "0")}
+                  {(krathongs.length + 500).toString().padStart(3, "0")}
                 </h1>
               </div>
             </div>
@@ -256,7 +256,7 @@ export default function Complet() {
                 <div className="flex items-center justify-center gap-2 font-[prompt]">
                   <h1 className="text-2xl text-[#4a4649]">จำนวนกระทง</h1>
                   <h1 className="text-2xl text-[#4a4649]">
-                    {krathongs.length.toString().padStart(3, "0")}
+                    {(krathongs.length + 500).toString().padStart(3, "0")}
                   </h1>
                   <h2 className="text-2xl text-[#4a4649]">กระทง</h2>
                 </div>
@@ -306,7 +306,7 @@ export default function Complet() {
                 <div className="flex items-center justify-center gap-2 font-[prompt]">
                   <h1 className="text-3xl text-[#4a4649]">จำนวนกระทง</h1>
                   <h1 className="text-3xl text-[#4a4649]">
-                    {krathongs.length.toString().padStart(3, "0")}
+                    {(krathongs.length + 500).toString().padStart(3, "0")}
                   </h1>
                   <h2 className="text-3xl text-[#4a4649]">กระทง</h2>
                 </div>
