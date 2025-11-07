@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Prompt, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import GlobalAudioPlayer from "../app/GlobalAudioPlayer";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -33,6 +33,7 @@ export default function RootLayout({
       <body
         className={`${prompt.variable} ${geistMono.variable} antialiased`}
       >
+        <GlobalAudioPlayer />
         {children}
       </body>
     </html>
