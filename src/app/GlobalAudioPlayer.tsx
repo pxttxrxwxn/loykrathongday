@@ -9,12 +9,12 @@ export default function GlobalAudioPlayer() {
     if (!audio) return;
 
     audio.loop = true;
-    audio.volume = 0.6;
-    audio.muted = true;   // ✅ ให้เริ่มเล่นทันทีแบบไม่มีเสียงก่อน
+    audio.volume = 0.7;
+    audio.muted = true; // ✅ เริ่มแบบ muted เพื่อผ่าน Autoplay Policy
     audio.play().catch(() => {});
 
     const enable = () => {
-      audio.muted = false;  // ✅ เปิดเสียงหลังผู้ใช้คลิก
+      audio.muted = false; // ✅ เปิดเสียงหลังผู้ใช้แตะครั้งแรก
       audio.play().catch(() => {});
       window.removeEventListener("click", enable);
       window.removeEventListener("touchstart", enable);
