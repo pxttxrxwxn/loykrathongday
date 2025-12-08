@@ -119,8 +119,8 @@ export default function Complet() {
 
               <button
                 onClick={() => setShowPopup(false)}
-                className="absolute top-0 right-1 bg-white/0 rounded-full p-2 
-                           text-xl sm:text-2xl font-bold text-black 
+                className="absolute top-0 right-1 bg-white/0 rounded-full p-2
+                           text-xl sm:text-2xl font-bold text-black
                            hover:scale-110 transition-transform"
               >
                 ✕
@@ -149,8 +149,8 @@ export default function Complet() {
 
               <button
                 onClick={() => setShowPopup(false)}
-                className="fixed top-18 right-2 bg-white/0 rounded-full p-3 
-                           text-2xl font-bold text-black 
+                className="fixed top-18 right-2 bg-white/0 rounded-full p-3
+                           text-2xl font-bold text-black
                            hover:scale-110 transition-transform"
               >
                 ✕
