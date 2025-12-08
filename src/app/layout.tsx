@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Prompt, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../app/globals.css";
 import GlobalAudioPlayer from "../app/GlobalAudioPlayer";
 
 const geistMono = Geist_Mono({
