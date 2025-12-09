@@ -8,13 +8,13 @@
 ---
 ## เทคโนโลยีที่ใช้
 
-- **Design:**
+### Design:
 ![My Skills Tool](https://go-skill-icons.vercel.app/api/icons?i=figma&theme=dark)
 
-- **Frontend:** 
+### Frontend:
 ![My Skills Tool](https://go-skill-icons.vercel.app/api/icons?i=nextjs,react,ts,tailwind&theme=dark)
 
-- **Database:** 
+### Database:
 ![My Skills Tool](https://go-skill-icons.vercel.app/api/icons?i=supabase&theme=dark)
 ---
 ## Figma
